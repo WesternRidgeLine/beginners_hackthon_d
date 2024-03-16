@@ -1,9 +1,15 @@
 import tkinter as tk
+<<<<<<< HEAD
 from tkinter import ttk
 from tkinter import scrolledtext
 from tkinter import filedialog
 from tkinter import messagebox
 import sqlite3
+=======
+from tkinter import scrolledtext
+from tkinter import filedialog
+from tkinter import messagebox
+>>>>>>> fe3020fca203073569c53039b663028314b3a2b6
 
 class NotepadApp:
     """テキストエディタのアプリケーションクラス"""
@@ -22,6 +28,7 @@ class NotepadApp:
         self.text_area.pack(expand=True, fill="both")
         self.create_menu()
 
+<<<<<<< HEAD
         # タグを追加するエントリーボックスとボタンを作成
         self.tag_info_label = tk.Label(master, text="使用タグ:")
         self.tag_info_label.pack(side=tk.LEFT, padx=5, pady=5)
@@ -38,10 +45,13 @@ class NotepadApp:
         self.add_tag_button_add = tk.Button(master, text="タグ追加", command=self.add_tag)
         self.add_tag_button_add.pack(side=tk.LEFT,padx=10, pady=10)
 
+=======
+>>>>>>> fe3020fca203073569c53039b663028314b3a2b6
         # 保存ボタンを追加
         self.save_button = tk.Button(master, text="保存", command=self.save_file)
         self.save_button.pack(side=tk.BOTTOM, padx=5, pady=5)
 
+<<<<<<< HEAD
         # SQLiteデータベースを開く
         self.conn = sqlite3.connect('notes.db')
         self.cursor = self.conn.cursor()
@@ -53,6 +63,8 @@ class NotepadApp:
         # タグコンボボックスを更新
         self.update_tag_listbox()
 
+=======
+>>>>>>> fe3020fca203073569c53039b663028314b3a2b6
     def create_menu(self):
         """メニューバーを作成"""
         menubar = tk.Menu(self.master)
@@ -82,6 +94,7 @@ class NotepadApp:
         if file_path:
             with open(file_path, "w") as file:
                 file.write(self.text_area.get(1.0, tk.END))
+<<<<<<< HEAD
 
         # SQLiteにも保存
             content = self.text_area.get(1.0, tk.END)
@@ -151,6 +164,9 @@ class NotepadApp:
             return row[0]
         else:
             return None
+=======
+            messagebox.showinfo("保存", "ファイルが保存されました。")
+>>>>>>> fe3020fca203073569c53039b663028314b3a2b6
 
 def main():
     """メイン関数"""
@@ -160,4 +176,8 @@ def main():
     root.mainloop()
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     main()
+=======
+    main()
+>>>>>>> fe3020fca203073569c53039b663028314b3a2b6
