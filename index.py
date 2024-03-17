@@ -113,7 +113,8 @@ class NotepadApp:
             note_id = self.cursor.lastrowid
         
         # ファイルに関連付けられたタグIDを notes_tags テーブルに保存
-            for tag in list(self.text_area.tag_names()) + selected_tags:
+            for tag in list(self.text_area.tag_names())[1:] + selected_tags:
+                print(tag)
                 tag_id = self.get_tag_id(tag)
                 if tag_id:
                     self.cursor.execute("CREATE TABLE IF NOT EXISTS notes_tags (note_id INTEGER, tag_id INTEGER)")
