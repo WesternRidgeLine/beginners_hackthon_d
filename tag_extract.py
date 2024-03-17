@@ -1,6 +1,4 @@
 
-<<<<<<< HEAD
-=======
 import os
 import sys
 import re
@@ -135,4 +133,3 @@ if __name__ == '__main__':
 
   # extract_tag(sentence)
   # extract_tag(url)
->>>>>>> f294ad03a335a9d35a167a04ef03d9029e554d8c
