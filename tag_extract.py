@@ -1,5 +1,5 @@
 """
-extract_tag_chatGPT ：chatGPTを用いてタグ生成を行う関数
+extract_tag_chatgpt ：chatGPTを用いてタグ生成を行う関数
 引数：("テキストかurlの文字列", [既存のタグのリスト])
 戻り値：[生成したタグのリスト]
 """
