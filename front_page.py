@@ -21,28 +21,32 @@ class FrontPage(tk.Tk):
         self.search_button = tk.Button(self, text="検索", command=self.open_search)
         self.search_button.pack(pady=10)
 
+        # 新規メモのフレーム
+        self.notepad_window = tk.Frame(self)
+        self.notepad_app = None  # 検索アプリケーションのインスタンスを格納する変数
+
         # 検索画面のフレーム
         self.search_frame = tk.Frame(self)
         self.search_app = None  # 検索アプリケーションのインスタンスを格納する変数
 
     def open_notepad(self):
         """メモ帳を開く"""
-        # 検索画面を非表示にする
-        self.hide_search_frame()
-        # メモ帳を表示する
-        file_name = "Untitled"
-        # もしも、すでにメモ帳を開いていたらメモ帳を非表示にする。
-        if hasattr(self, 'notepad_window'):
-            # self.notepad_window.destroy()
-            self.notepad_window.deiconify()
+        # もしも、すでにメモ帳を開いていたら、メモ帳を非表示にする。
+        if hasattr(self, 'search_frame'):
+            self.hide_search_frame()
+        #　もしも、すでに新規メモ画面が開いていたら、検索画面を非表示にする。
+        if self.notepad_app:
+            self.hide_notepad_frame()
+            self.geometry("300x200")
+            self.notepad_app = None
         else:
-            self.notepad_window = NotepadApp(self, file_name, root=self)
+            self.show_notepad_frame()
 
     def open_search(self):
         """検索画面を開く"""
         # もしも、すでにメモ帳を開いていたら、メモ帳を非表示にする。
         if hasattr(self, 'notepad_window'):
-            self.notepad_window.close_notepad()
+            self.hide_notepad_frame()
         #　もしも、すでに検索画面が開いていたら、検索画面を非表示にする。
         if self.search_app:
             self.hide_search_frame()
@@ -63,6 +67,19 @@ class FrontPage(tk.Tk):
         """検索画面を非表示にする"""
         if hasattr(self, 'search_frame'):
             self.search_frame.destroy()
+
+    def show_notepad_frame(self):
+        """検索画面を表示する"""
+        self.notepad_window.destroy()  # 既存のフレームを破棄して新しいフレームを作成
+        self.notepad_window = tk.Frame(self)
+        self.notepad_app = NotepadApp(self.notepad_window, root=self)
+        self.geometry("400x400")
+        self.notepad_window.pack()
+
+    def hide_notepad_frame(self):
+        """検索画面を非表示にする"""
+        if hasattr(self, 'notepad_window'):
+            self.notepad_window.destroy()
 
 def main():
     """メイン関数"""

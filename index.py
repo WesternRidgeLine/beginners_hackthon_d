@@ -16,11 +16,10 @@ class NotepadApp:
             file_name (str, optional): ファイル名。デフォルトはNone。
             root (tk.Tk, optional): 最初の画面の親ウィンドウ。デフォルトはNone。
         """
-        self.master = master
         self.root = root  # 最初の画面の親ウィンドウを保持
-        self.master.geometry("600x450")  # ウィンドウの高さを調整
+        self.root.geometry("800x600")  # ウィンドウの高さを調整
         self.file_name = file_name if file_name else "Untitled"  # ファイル名の初期値を設定
-        self.master.title(self.file_name)  # ウィンドウのタイトルをファイル名に設定
+        self.root.title(self.file_name)  # ウィンドウのタイトルをファイル名に設定
 
         self.text_area = scrolledtext.ScrolledText(master, wrap=tk.WORD)
         self.text_area.pack(expand=True, fill="both")
@@ -64,14 +63,14 @@ class NotepadApp:
 
     def create_menu(self):
         """メニューバーを作成"""
-        menubar = tk.Menu(self.master)
+        menubar = tk.Menu(self.root)
         filemenu = tk.Menu(menubar, tearoff=0)
         filemenu.add_command(label="新規作成", command=self.new_file)
         filemenu.add_command(label="開く", command=self.open_file)
         filemenu.add_separator()
         filemenu.add_command(label="閉じる", command=self.close_notepad)
         menubar.add_cascade(label="ファイル", menu=filemenu)
-        self.master.config(menu=menubar)
+        self.root.config(menu=menubar)
 
     def new_file(self):
         """新規ファイルを作成"""
@@ -89,17 +88,15 @@ class NotepadApp:
         """ファイルを保存"""
         file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text Files", "*.txt")])
         if file_path:
-<<<<<<< HEAD
-=======
             # テキストエリアの内容を取得してmemo_text_contentに格納
             memo_text_content = self.text_area.get(1.0, tk.END)
             print(memo_text_content)
             tag = tag_extract.extract_tag_chatgpt(memo_text_content, []) #生成したタグを持ってくる,既存のタグを入れたい
+            print(tag)
             # ポップアップで複数のタグを指定
-            selected_tags = self.choose_tags()
+            selected_tags = self.choose_tags(tag)
             if selected_tags is None:
                 return  # キャンセルされた場合は保存を中止
->>>>>>> a62ab36ba6482d2adc5b1e625f0f1ae7c4f8d26f
             with open(file_path, "w") as file:
                 file.write(self.text_area.get(1.0, tk.END))
 
@@ -124,7 +121,7 @@ class NotepadApp:
             self.tag_info_label.config(text="")
     def show_tags(self):
         """タグ一覧を表示"""
-        tag_window = tk.Toplevel(self.master)
+        tag_window = tk.Toplevel(self.root)
         tag_window.title("タグ一覧")
 
         tree = ttk.Treeview(tag_window)
@@ -149,7 +146,7 @@ class NotepadApp:
             tag_id = tree.item(item, "values")[0]
             files = self.get_files_for_tag(tag_id)
 
-            files_window = tk.Toplevel(self.master)
+            files_window = tk.Toplevel(self.root)
             files_window.title("関連するファイル名")
 
             files_table = ttk.Treeview(files_window)
@@ -257,23 +254,46 @@ class NotepadApp:
         else:
             return None
 
+    def choose_tags(self,tags):
+            """複数のタグを選択"""
+            # タグのリストを取得
+            # tags = [self.tag_listbox.get(i) for i in range(self.tag_listbox.size())]
 
-    def choose_tags(self):
-        """複数のタグを選択"""
-        # 空の文字列で初期化
-        selected_tags = ""
-        # タグのリストをスペースで区切って入力させる
-        selected_tags = simpledialog.askstring("タグ選択", "保存するタグを選択してください（スペースで区切って入力）:", parent=self.master)
-        # 入力があるかどうかをチェックし、なければNoneを返す
-        if selected_tags:
+            # 選択されたタグを格納するリスト
+            selected_tags = []
+
+            # ポップアップウィンドウを作成
+            popup = tk.Toplevel(self.root)
+            popup.title("タグ選択")
+
+            # チェックボックスを作成し、タグを表示
+            checkboxes = []
+            for tag in tags:
+                var = tk.BooleanVar()
+                checkbox = tk.Checkbutton(popup, text=tag, variable=var)
+                checkbox.pack(anchor="w")
+                checkboxes.append((tag, var))
+
+            def save_tags():
+                """選択されたタグを保存"""
+                for tag, var in checkboxes:
+                    if var.get():
+                        selected_tags.append(tag)
+                popup.destroy()
+
+            # 保存ボタンを作成
+            save_button = tk.Button(popup, text="保存", command=save_tags)
+            save_button.pack()
+
+            popup.wait_window()
+
+            # 選択されたタグを返す
             return selected_tags
-        else:
-            return None
 
     def close_notepad(self):
         """メモ画面を閉じる"""
-        # self.master.destroy()
-        self.master.deiconify()
+        # self.root.destroy()
+        self.root.deiconify()
         #self.root.deiconify()  # 最初の画面を表示
 
 def main():

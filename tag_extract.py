@@ -20,8 +20,8 @@ import re
 
 # pip install mecab-python3
 # pip install unidic-lite
-import MeCab
-mecab = MeCab.Tagger("mecabrc")
+# import MeCab
+# mecab = MeCab.Tagger("mecabrc")
 
 # pip install beautifulsoup4
 import requests
@@ -32,23 +32,23 @@ import openai
 # export OPENAI_API_KEY=[YOUR_API_KEY]
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-def ma_parse(sentence):
-  noun_count = {}
-  node = mecab.parseToNode(sentence)
-  while node:
-      word = node.surface
-      hinshi = node.feature.split(",")[0]
-      if word in noun_count.keys() and hinshi == "名詞":
-          noun_freq = noun_count[word]
-          noun_count[word] = noun_freq + 1
-      elif hinshi == "名詞":
-          noun_count[word] = 1
-      else:
-          pass
-      node = node.next
+# def ma_parse(sentence):
+#   noun_count = {}
+#   node = mecab.parseToNode(sentence)
+#   while node:
+#       word = node.surface
+#       hinshi = node.feature.split(",")[0]
+#       if word in noun_count.keys() and hinshi == "名詞":
+#           noun_freq = noun_count[word]
+#           noun_count[word] = noun_freq + 1
+#       elif hinshi == "名詞":
+#           noun_count[word] = 1
+#       else:
+#           pass
+#       node = node.next
       
-  noun_count = sorted(noun_count.items(), key=lambda x:x[1], reverse=True)
-  return noun_count
+#   noun_count = sorted(noun_count.items(), key=lambda x:x[1], reverse=True)
+#   return noun_count
 
 def extract_url(url):
   r = requests.get(url) 
@@ -63,15 +63,15 @@ def extract_url(url):
   text="\n".join(line for line in lines if line)
   return text
 
-def extract_tag(text_or_url):
-  if "http" in text_or_url:
-    input_text = extract_url(text_or_url)
-  else:  
-    input_text = text_or_url
-  if len(input_text) > 5000: input_text = input_text[:5000]
-  reccomend_tag_list = [pair[0] for pair in ma_parse(input_text)][:10]
-  # print(reccomend_tag_list)
-  return reccomend_tag_list
+# def extract_tag(text_or_url):
+#   if "http" in text_or_url:
+#     input_text = extract_url(text_or_url)
+#   else:  
+#     input_text = text_or_url
+#   if len(input_text) > 5000: input_text = input_text[:5000]
+#   reccomend_tag_list = [pair[0] for pair in ma_parse(input_text)][:10]
+#   # print(reccomend_tag_list)
+#   return reccomend_tag_list
 
 def extract_tag_chatgpt(text_or_url, tag_list=[]):
   if "http" in text_or_url:
@@ -146,5 +146,5 @@ if __name__ == '__main__':
   extract_tag_chatgpt(sentence, ["物理学", "数学", "正規表現"])
   extract_tag_chatgpt(url, ["物理学", "数学", "正規表現"])
 
-  extract_tag(sentence)
-  extract_tag(url)
+  # extract_tag(sentence)
+  # extract_tag(url)
