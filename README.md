@@ -1,1 +1,1 @@
-﻿# beginners_hackathon_d
+﻿# Trackjob ビギナーズハッカソン Dチーム
