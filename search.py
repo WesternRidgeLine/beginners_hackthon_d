@@ -31,7 +31,7 @@ class SearchApp:
     def search(self):
         """検索ボタンがクリックされたときの処理"""
         search_text = self.search_entry.get()
-        self.cursor.execute("SELECT file_name FROM notes WHERE content LIKE ?", ('%' + search_text + '%',))
+        self.cursor.execute("SELECT file_name FROM notes WHERE file_name LIKE ?", ('%' + search_text + '%',))
         rows = self.cursor.fetchall()
         files = [row[0] for row in rows]
         if files:
