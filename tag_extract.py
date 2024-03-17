@@ -57,12 +57,11 @@ def extract_tag(text_or_url):
   print(reccomend_tag_list)
   return reccomend_tag_list
 
-def extract_tag_chatgpt(path_or_url, tag_list):
-  if "http" in path_or_url:
-    input_text = extract_url(path_or_url)
+def extract_tag_chatgpt(text_or_url, tag_list):
+  if "http" in text_or_url:
+    input_text = extract_url(text_or_url)
   else:  
-    with open(path_or_url, "r") as f:
-      input_text = f.read()
+    input_text = text_or_url
   if len(input_text) > 500: input_text = input_text[:500]
 
   conversation=[{"role": "system", "content": "あなたは優秀なアシスタントです。"}]
