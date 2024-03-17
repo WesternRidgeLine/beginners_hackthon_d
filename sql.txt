@@ -1,0 +1,27 @@
+import sqlite3
+
+# notes.db データベースに接続
+conn = sqlite3.connect('notes.db')
+cursor = conn.cursor()
+
+# notesテーブルが存在しない場合にのみテーブルを作成
+cursor.execute('''CREATE TABLE IF NOT EXISTS notes (
+                    id INTEGER PRIMARY KEY,
+                    file_name TEXT,
+                    content TEXT
+                )''')
+
+# notes_tagsテーブルが存在しない場合にのみテーブルを作成
+cursor.execute('''CREATE TABLE IF NOT EXISTS notes_tags (
+                    id INTEGER PRIMARY KEY,
+                    note_id INTEGER,
+                    tag_id INTEGER,
+                    FOREIGN KEY(note_id) REFERENCES notes(id),
+                    FOREIGN KEY(tag_id) REFERENCES tags(id)
+                )''')
+
+# データベースの変更を保存
+conn.commit()
+
+# データベース接続を閉じる
+conn.close()

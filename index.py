@@ -38,8 +38,6 @@ class NotepadApp:
         # 保存先ディレクトリが存在しない場合は作成
         if not os.path.exists(self.save_directory):
             os.makedirs(self.save_directory)
-        
-
 
     def create_menu(self):
         """メニューバーを作成"""

@@ -1,5 +1,8 @@
 import tkinter as tk
 
+import sqlite3
+
+
 class SearchApp:
     """検索画面のアプリケーションクラス"""
 
@@ -29,6 +32,20 @@ class SearchApp:
         search_text = self.search_entry.get()
         # ここで検索の処理を実行する
         self.result_label.config(text=f"検索結果: {search_text}")
+        self.conn = sqlite3.connect('notes.db')
+        self.cursor = self.conn.cursor()
+
+    def search(self):
+        """検索ボタンがクリックされたときの処理"""
+        search_text = self.search_entry.get()
+        self.cursor.execute("SELECT file_name FROM notes WHERE content LIKE ?", ('%' + search_text + '%',))
+        rows = self.cursor.fetchall()
+        files = [row[0] for row in rows]
+        if files:
+            files_text = "\n".join(files)
+            self.result_label.config(text=f"検索結果:\n{files_text}")
+        else:
+            self.result_label.config(text="検索結果: ファイルが見つかりませんでした")
 
 if __name__ == "__main__":
     root = tk.Tk()
