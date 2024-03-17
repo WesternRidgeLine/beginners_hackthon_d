@@ -73,6 +73,10 @@ class NotepadApp:
         menubar.add_cascade(label="ファイル", menu=filemenu)
         self.master.config(menu=menubar)
 
+        tagsmenu = tk.Menu(menubar, tearoff=0)
+        tagsmenu.add_command(label="タグ一覧を表示", command=self.show_tags)
+        menubar.add_cascade(label="タグ一覧", menu=tagsmenu)
+
     def new_file(self):
         """新規ファイルを作成"""
         self.text_area.delete(1.0, tk.END)
@@ -89,17 +93,6 @@ class NotepadApp:
         """ファイルを保存"""
         file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text Files", "*.txt")])
         if file_path:
-<<<<<<< HEAD
-=======
-            # テキストエリアの内容を取得してmemo_text_contentに格納
-            memo_text_content = self.text_area.get(1.0, tk.END)
-            print(memo_text_content)
-            tag = tag_extract.extract_tag_chatgpt(memo_text_content, []) #生成したタグを持ってくる,既存のタグを入れたい
-            # ポップアップで複数のタグを指定
-            selected_tags = self.choose_tags()
-            if selected_tags is None:
-                return  # キャンセルされた場合は保存を中止
->>>>>>> a62ab36ba6482d2adc5b1e625f0f1ae7c4f8d26f
             with open(file_path, "w") as file:
                 file.write(self.text_area.get(1.0, tk.END))
 
