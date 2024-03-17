@@ -1,29 +1,28 @@
 import tkinter as tk
 
-class SearchApp(tk.Tk):
+class SearchApp:
     """検索画面のアプリケーションクラス"""
 
-    def __init__(self):
+    def __init__(self, master):
         """アプリケーションの初期化"""
-        super().__init__()
-        self.title("検索画面")
-        self.geometry("400x200")
+        self.master = master
+        self.frame = tk.Frame(self.master)
+        self.frame.pack()
 
-        self.create_widgets()
+        self.title_label = tk.Label(self.frame, text="検索画面")
+        self.title_label.grid(row=0, column=0, columnspan=3, pady=10)
 
-    def create_widgets(self):
-        """ウィジェットの作成"""
-        self.search_label = tk.Label(self, text="検索:")
-        self.search_label.grid(row=0, column=0, padx=10, pady=10)
+        self.search_label = tk.Label(self.frame, text="検索:")
+        self.search_label.grid(row=1, column=0, padx=10, pady=10)
 
-        self.search_entry = tk.Entry(self)
-        self.search_entry.grid(row=0, column=1, padx=10, pady=10)
+        self.search_entry = tk.Entry(self.frame)
+        self.search_entry.grid(row=1, column=1, padx=10, pady=10)
 
-        self.search_button = tk.Button(self, text="検索", command=self.search)
-        self.search_button.grid(row=0, column=2, padx=10, pady=10)
+        self.search_button = tk.Button(self.frame, text="検索", command=self.search)
+        self.search_button.grid(row=1, column=2, padx=10, pady=10)
 
-        self.result_label = tk.Label(self, text="")
-        self.result_label.grid(row=1, column=0, columnspan=3, padx=10, pady=10)
+        self.result_label = tk.Label(self.frame, text="")
+        self.result_label.grid(row=2, column=0, columnspan=3, padx=10, pady=10)
 
     def search(self):
         """検索ボタンがクリックされたときの処理"""
@@ -32,5 +31,6 @@ class SearchApp(tk.Tk):
         self.result_label.config(text=f"検索結果: {search_text}")
 
 if __name__ == "__main__":
-    app = SearchApp()
-    app.mainloop()
+    root = tk.Tk()
+    app = SearchApp(root)
+    root.mainloop()
