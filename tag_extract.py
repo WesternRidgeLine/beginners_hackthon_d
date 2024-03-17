@@ -73,7 +73,7 @@ def extract_tag(text_or_url):
   # print(reccomend_tag_list)
   return reccomend_tag_list
 
-def extract_tag_chatgpt(text_or_url, tag_list):
+def extract_tag_chatgpt(text_or_url, tag_list=[]):
   if "http" in text_or_url:
     input_text = extract_url(text_or_url)
   else:  

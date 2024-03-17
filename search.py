@@ -1,5 +1,7 @@
 import tkinter as tk
+
 import sqlite3
+
 
 class SearchApp:
     """検索画面のアプリケーションクラス"""
@@ -25,6 +27,11 @@ class SearchApp:
         self.result_label = tk.Label(self.frame, text="")
         self.result_label.grid(row=2, column=0, columnspan=3, padx=10, pady=10)
 
+    def search(self):
+        """検索ボタンがクリックされたときの処理"""
+        search_text = self.search_entry.get()
+        # ここで検索の処理を実行する
+        self.result_label.config(text=f"検索結果: {search_text}")
         self.conn = sqlite3.connect('notes.db')
         self.cursor = self.conn.cursor()
 
