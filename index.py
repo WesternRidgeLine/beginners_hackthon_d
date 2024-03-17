@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import scrolledtext, filedialog, messagebox, simpledialog
 import os
 
+import tag_extract
+
 class NotepadApp:
     """テキストエディタのアプリケーションクラス"""
 
@@ -71,6 +73,7 @@ class NotepadApp:
             # テキストエリアの内容を取得してmemo_text_contentに格納
             memo_text_content = self.text_area.get(1.0, tk.END)
             print(memo_text_content)
+            tag = tag_extract.extract_tag_chatgpt(memo_text_content, []) #生成したタグを持ってくる,既存のタグを入れたい
             # ポップアップで複数のタグを指定
             selected_tags = self.choose_tags()
             if selected_tags is None:
